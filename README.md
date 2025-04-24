@@ -116,7 +116,6 @@ The script automatically detects the Metashape interface language (`ru` or `en`)
 
 ---
 
-*Original concept author and core conversion functions not specified in the code. This version has been refined for stability, memory management, and usability.*
 
 ---
 
@@ -238,4 +237,3 @@ The script automatically detects the Metashape interface language (`ru` or `en`)
 
 ---
 
-*Автор оригинальной идеи и базовых функций преобразования не указан в коде. Данная версия доработана для стабильности, управления памятью и улучшения интерфейса.* 
