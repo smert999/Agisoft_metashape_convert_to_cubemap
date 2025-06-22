@@ -1,8 +1,77 @@
+# ⚠️ ВАЖНОЕ ОБНОВЛЕНИЕ: Исправленная версия unified_fixed_v002.py
+
+## 🔧 Критическое исправление математики и геометрии
+
+**ВНИМАНИЕ:** Обнаружены и исправлены критические ошибки в оригинальном скрипте v012. Настоятельно рекомендуется использовать **новый исправленный скрипт `unified_fixed_v002.py`** вместо предыдущих версий.
+
+### 🎯 Что исправлено в unified_fixed_v002.py:
+
+✅ **Математика проекции**: Полностью переписана функция конвертации эквиректангулярной → кубическая проекция  
+✅ **Позиции камер**: Все кубические камеры теперь правильно располагаются в центре исходной сферической камеры  
+✅ **Ориентации граней**: Исправлены направления всех 6 граней куба (front, back, left, right, top, down)  
+✅ **Извлечение цветов**: Улучшен алгоритм извлечения цветного разреженного облака из Metashape  
+✅ **Экспорт COLMAP**: Автоматическое создание папки с COLMAP структурой для 3D Gaussian Splatting  
+
+### 🚀 Новый упрощенный workflow:
+
+1. **Импорт сферических изображений** в Metashape
+2. **Выравнивание камер** (Align Cameras) - **один раз**
+3. **Запуск unified_fixed_v002.py**
+4. ✅ **Готово!** - папка с COLMAP экспортом создана автоматически
+
+**❗ ВАЖНО**: После работы исправленного скрипта **НЕ НУЖНО** делать повторное выравнивание камер в Metashape. Скрипт сразу создает правильно ориентированные кубические камеры И экспортирует готовую структуру COLMAP.
+
+### 📁 Структура экспорта:
+```
+output_folder/
+├── images/           # Кубические грани с правильной геометрией
+├── sparse/0/         # COLMAP данные для 3DGS
+│   ├── cameras.bin   # Параметры камер
+│   ├── images.bin    # Позиции и ориентации (исправлены!)  
+│   └── points3D.bin  # Цветное разреженное облако
+└── README_FIXED.txt  # Подробная документация
+```
+
+### 🔄 Статус обновления:
+
+- **Текущая версия**: `unified_fixed_v002.py` - быстрое критическое исправление
+- **Планируется**: Полноценное обновление v013 с интеграцией всех исправлений в основной GUI скрипт
+- **Рекомендация**: Используйте `unified_fixed_v002.py` для всех новых проектов
+
+---
+
 # Metashape Spherical to Cubemap Converter v012
 
 A Python script for Agisoft Metashape Pro that converts a set of spherical (equirectangular) images into separate images for the faces of a cubemap projection (front, back, left, right, top, bottom). It creates new cameras in Metashape for each cube face, inheriting the position and orientation of the original spherical camera.
 
 Version 012 includes stability and memory management improvements, especially when dealing with a large number of cameras.
+
+## ⚠️ CRITICAL UPDATE: Fixed Version Available
+
+**IMPORTANT:** Critical mathematical and geometric errors have been discovered and fixed in the original v012 script. It is strongly recommended to use the **new fixed script `unified_fixed_v002.py`** instead of previous versions.
+
+### 🎯 What's Fixed in unified_fixed_v002.py:
+
+✅ **Projection Mathematics**: Completely rewritten equirectangular → cubemap conversion function  
+✅ **Camera Positions**: All cubemap cameras now correctly positioned at the spherical camera center  
+✅ **Face Orientations**: Fixed directions for all 6 cube faces (front, back, left, right, top, down)  
+✅ **Color Extraction**: Improved algorithm for extracting colored sparse point cloud from Metashape  
+✅ **COLMAP Export**: Automatic creation of COLMAP structure folder for 3D Gaussian Splatting  
+
+### 🚀 New Simplified Workflow:
+
+1. **Import spherical images** into Metashape
+2. **Align cameras** - **once only**
+3. **Run unified_fixed_v002.py**
+4. ✅ **Done!** - COLMAP export folder created automatically
+
+**❗ IMPORTANT**: After running the fixed script, **NO NEED** to realign cameras in Metashape. The script creates correctly oriented cubemap cameras AND exports ready COLMAP structure.
+
+### 🔄 Update Status:
+
+- **Current version**: `unified_fixed_v002.py` - quick critical fix
+- **Planned**: Full v013 update integrating all fixes into the main GUI script
+- **Recommendation**: Use `unified_fixed_v002.py` for all new projects
 
 ## Features
 
@@ -30,7 +99,7 @@ Version 012 includes stability and memory management improvements, especially wh
 
 ## Installation
 
-1.  Download the script file (`convert_to_cubemap_v012.py`).
+1.  Download the script file (`convert_to_cubemap_v012.py` or **recommended** `unified_fixed_v002.py`).
 2.  On the first run, the script will check for necessary libraries (`opencv-python`, `PyQt5`).
 3.  If libraries are missing, it will attempt to install them using `pip`. Administrator privileges or internet access might be required.
 4.  If `pip` installation fails (e.g., due to network or permission issues), you may need to install the libraries manually into the Python environment used by Metashape.
@@ -39,9 +108,18 @@ Version 012 includes stability and memory management improvements, especially wh
 
 1.  Open your project in Agisoft Metashape Pro.
 2.  Ensure you have an active chunk containing the spherical cameras you wish to convert.
-3.  Run the script via the Metashape menu: `Tools -> Scripts -> Run Script...` and select the `convert_to_cubemap_v012.py` file.
+3.  Run the script via the Metashape menu: `Tools -> Scripts -> Run Script...` and select the script file.
 
-### Graphical User Interface (GUI)
+### For unified_fixed_v002.py (Recommended):
+
+The fixed script runs directly with simple dialog prompts and:
+- Analyzes spherical cameras automatically
+- Converts to cubemap faces with correct geometry
+- Creates properly oriented cameras in Metashape
+- Exports COLMAP structure for 3D Gaussian Splatting
+- **No realignment needed** - ready for 3DGS training
+
+### Graphical User Interface (GUI) - v012:
 
 If `PyQt5` is available, the graphical interface will launch:
 
@@ -97,15 +175,24 @@ The script automatically detects the Metashape interface language (`ru` or `en`)
 *   **Dependency Installation Issues**: Ensure internet access and permissions to install Python packages. Try installing `opencv-python` and `PyQt5` manually via `pip` in Metashape's Python environment.
 *   **High RAM Usage / Crashes**: Reduce the number of threads, especially **"Camera processing threads"** (set it to **1**). You might also reduce "Face processing threads".
 *   **Path Issues (Cyrillic/Non-ASCII)**: The script includes path normalization, but if issues persist, ensure project and image paths do not contain highly unusual or invalid characters.
+*   **Geometric Issues**: If using v012 and experiencing incorrect camera orientations or projections, switch to `unified_fixed_v002.py` which has corrected mathematics.
 
 ## Version History
 
-*   **v012 (Current)**:
+*   **unified_fixed_v002 (Recommended)**:
+    *   **🔧 CRITICAL FIXES**: Corrected mathematical projection errors
+    *   **✅ Proper camera positioning**: All cubemap cameras positioned correctly
+    *   **✅ Fixed face orientations**: All 6 cube faces now show correct directions  
+    *   **✅ Improved color extraction**: Better sparse point cloud color handling
+    *   **✅ COLMAP auto-export**: Ready structure for 3D Gaussian Splatting
+    *   **✅ No realignment needed**: Workflow simplified
+*   **v012 (Legacy)**:
     *   Restored threaded camera processing (`ProcessCamerasThread`) for stability.
     *   Added explicit memory management (`del`, `gc.collect()`) to reduce RAM usage.
     *   Introduced separate controls for "Camera processing threads" and "Face processing threads".
     *   Updated recommendations for thread settings, especially for low-RAM systems.
-*   **v0.11.x (Previous attempts)**: Various changes including GUI improvements, face selection, post-processing options, Cyrillic path support, dependency installation, non-threaded experiments.
+    *   **⚠️ Known issues**: Mathematical projection errors, incorrect camera positioning
+*   **v0.11.x (Deprecated)**: Various changes including GUI improvements, face selection, post-processing options, Cyrillic path support, dependency installation, non-threaded experiments.
 *   **(Older versions)**: Basic console functionality.
 
 ## Acknowledgments
@@ -116,10 +203,47 @@ The script automatically detects the Metashape interface language (`ru` or `en`)
 
 ---
 
+# Конвертер Сферических Изображений в Кубическую Проекцию для Metashape
+
+## ⚠️ КРИТИЧЕСКОЕ ОБНОВЛЕНИЕ: Доступна исправленная версия
+
+**ВНИМАНИЕ:** В оригинальном скрипте v012 обнаружены и исправлены критические ошибки математики и геометрии. Настоятельно рекомендуется использовать **новый исправленный скрипт `unified_fixed_v002.py`** вместо предыдущих версий.
+
+### 🎯 Что исправлено в unified_fixed_v002.py:
+
+✅ **Математика проекции**: Полностью переписана функция конвертации эквиректангулярной → кубическая проекция  
+✅ **Позиции камер**: Все кубические камеры теперь правильно располагаются в центре исходной сферической камеры  
+✅ **Ориентации граней**: Исправлены направления всех 6 граней куба (front, back, left, right, top, down)  
+✅ **Извлечение цветов**: Улучшен алгоритм извлечения цветного разреженного облака из Metashape  
+✅ **Экспорт COLMAP**: Автоматическое создание папки с COLMAP структурой для 3D Gaussian Splatting  
+
+### 🚀 Новый упрощенный workflow:
+
+1. **Импорт сферических изображений** в Metashape
+2. **Выравнивание камер** (Align Cameras) - **один раз**
+3. **Запуск unified_fixed_v002.py**
+4. ✅ **Готово!** - папка с COLMAP экспортом создана автоматически
+
+**❗ ВАЖНО**: После работы исправленного скрипта **НЕ НУЖНО** делать повторное выравнивание камер в Metashape. Скрипт сразу создает правильно ориентированные кубические камеры И экспортирует готовую структуру COLMAP.
+
+### 📁 Структура экспорта:
+```
+output_folder/
+├── images/           # Кубические грани с правильной геометрией
+├── sparse/0/         # COLMAP данные для 3DGS
+│   ├── cameras.bin   # Параметры камер
+│   ├── images.bin    # Позиции и ориентации (исправлены!)  
+│   └── points3D.bin  # Цветное разреженное облако
+└── README_FIXED.txt  # Подробная документация
+```
+
+### 🔄 Статус обновления:
+
+- **Текущая версия**: `unified_fixed_v002.py` - быстрое критическое исправление
+- **Планируется**: Полноценное обновление v013 с интеграцией всех исправлений в основной GUI скрипт
+- **Рекомендация**: Используйте `unified_fixed_v002.py` для всех новых проектов
 
 ---
-
-# Конвертер Сферических Изображений в Кубическую Проекцию v012 для Metashape
 
 Этот скрипт для Agisoft Metashape Pro преобразует набор сферических (эквиректангулярных) изображений в отдельные изображения для граней кубической проекции (передняя, задняя, левая, правая, верхняя, нижняя). Он создает новые камеры в Metashape для каждой грани куба, копируя положение и ориентацию исходной сферической камеры.
 
@@ -151,7 +275,7 @@ The script automatically detects the Metashape interface language (`ru` or `en`)
 
 ## Установка
 
-1.  Скачайте файл скрипта (`convert_to_cubemap_v012.py`).
+1.  Скачайте файл скрипта (`convert_to_cubemap_v012.py` или **рекомендуется** `unified_fixed_v002.py`).
 2.  При первом запуске скрипт проверит наличие необходимых библиотек (`opencv-python`, `PyQt5`).
 3.  Если библиотеки отсутствуют, скрипт попытается установить их с помощью `pip`. Вам могут потребоваться права администратора или доступ в интернет.
 4.  Если установка через `pip` не удалась (например, из-за ограничений сети или прав), вам может потребоваться установить библиотеки вручную в окружение Python, используемое Metashape.
@@ -160,9 +284,18 @@ The script automatically detects the Metashape interface language (`ru` or `en`)
 
 1.  Откройте ваш проект в Agisoft Metashape Pro.
 2.  Убедитесь, что у вас есть активный чанк (`Chunk`) со сферическими камерами, которые вы хотите конвертировать.
-3.  Запустите скрипт через меню Metashape: `Инструменты -> Скрипты -> Запуск скрипта...` (`Tools -> Run Script...`) и выберите файл `convert_to_cubemap_v012.py`.
+3.  Запустите скрипт через меню Metashape: `Инструменты -> Скрипты -> Запуск скрипта...` (`Tools -> Run Script...`) и выберите файл скрипта.
 
-### Графический интерфейс (GUI)
+### Для unified_fixed_v002.py (Рекомендуется):
+
+Исправленный скрипт работает напрямую с простыми диалогами и:
+- Анализирует сферические камеры автоматически
+- Конвертирует в кубические грани с правильной геометрией
+- Создает правильно ориентированные камеры в Metashape
+- Экспортирует структуру COLMAP для 3D Gaussian Splatting
+- **Не требует повторного выравнивания** - готово для обучения 3DGS
+
+### Графический интерфейс (GUI) - v012:
 
 Если библиотека `PyQt5` доступна, запустится графический интерфейс:
 
@@ -218,15 +351,24 @@ The script automatically detects the Metashape interface language (`ru` or `en`)
 *   **Ошибка установки библиотек**: Убедитесь, что у вас есть доступ в интернет и права на установку пакетов Python. Попробуйте установить `opencv-python` и `PyQt5` вручную через `pip` в окружении Metashape.
 *   **Высокое потребление ОЗУ / Сбои**: Уменьшите количество потоков, особенно **"Потоки обработки камер"** (установите в **1**). Также можно попробовать уменьшить "Потоки обработки граней".
 *   **Проблемы с путями (кириллица)**: Скрипт включает функции для нормализации путей, но если проблемы остаются, убедитесь, что пути к проекту и изображениям не содержат очень специфических или невалидных символов.
+*   **Проблемы геометрии**: Если используете v012 и наблюдаете неправильные ориентации камер или проекции, переключитесь на `unified_fixed_v002.py` с исправленной математикой.
 
 ## История версий
 
-*   **v012 (Текущая)**:
+*   **unified_fixed_v002 (Рекомендуется)**:
+    *   **🔧 КРИТИЧЕСКИЕ ИСПРАВЛЕНИЯ**: Исправлены ошибки математической проекции
+    *   **✅ Правильное позиционирование камер**: Все кубические камеры позиционированы корректно
+    *   **✅ Исправленные ориентации граней**: Все 6 граней куба теперь показывают правильные направления
+    *   **✅ Улучшенное извлечение цветов**: Лучшая обработка цветов разреженного облака
+    *   **✅ Авто-экспорт COLMAP**: Готовая структура для 3D Gaussian Splatting
+    *   **✅ Не требует повторного выравнивания**: Упрощенный workflow
+*   **v012 (Устаревшая)**:
     *   Восстановлена потоковая обработка камер (`ProcessCamerasThread`) для стабильности.
     *   Добавлено явное управление памятью (`del`, `gc.collect()`) для снижения потребления ОЗУ.
     *   Введены раздельные настройки для "Потоков обработки камер" и "Потоков обработки граней".
     *   Обновлены рекомендации по настройке потоков, особенно для систем с малым объемом ОЗУ.
-*   **v0.11.x (Предыдущие попытки)**: Различные изменения, включая улучшения GUI, выбор граней, опции постобработки, поддержку кириллических путей, установку зависимостей, эксперименты без потоков.
+    *   **⚠️ Известные проблемы**: Ошибки математической проекции, неправильное позиционирование камер
+*   **v0.11.x (Устарела)**: Различные изменения, включая улучшения GUI, выбор граней, опции постобработки, поддержку кириллических путей, установку зависимостей, эксперименты без потоков.
 *   **(Старые версии)**: Базовый консольный функционал.
 
 ## Благодарности
@@ -236,4 +378,3 @@ The script automatically detects the Metashape interface language (`ru` or `en`)
 *   Фреймворку PyQt5 за графический пользовательский интерфейс.
 
 ---
-
